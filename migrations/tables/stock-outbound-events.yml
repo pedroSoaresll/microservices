@@ -1,5 +1,5 @@
 Resources:
-  stockOutboundEvents:
+  StockOutboundEventsDynamoDBTable:
     Type: AWS::DynamoDB::Table
     Properties:
       TableName: stockOutboundEvents
@@ -12,3 +12,5 @@ Resources:
       ProvisionedThroughput:
         ReadCapacityUnits: 1
         WriteCapacityUnits: 1
+      StreamSpecification:
+        StreamViewType: NEW_IMAGE

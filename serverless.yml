@@ -22,6 +22,15 @@ custom:
     start:
       inMemory: false
       migrate: true
+  dynamodbStream:
+    host: localhost
+    port: 8000
+    pollForever: false
+    region: ${self:provider.region}
+    streams:
+      - table: stockInboundEvents
+        functions:
+          - stockInboundProcessing
 
 provider:
   name: aws
@@ -29,13 +38,8 @@ provider:
   lambdaHashingVersion: 20201221
   stage: dev
   region: us-east-1
-  environment: ${file(./.env.yml):${self:provider.stage}}
+  environment: ${file(./.env.yml):${opt:stage, self:provider.stage, 'dev'}}
 
-# you can define service wide environment variables here
-#  environment:
-#    variable1: value1
-
-# you can add packaging information here
 package:
   exclude:
     - aws-sdk
@@ -54,6 +58,14 @@ functions:
           path: /stock/{stockId}/inbound
           method: put
 
+  stockInboundProcessing:
+    handler: src/functions/stock/inbount-processing/inbound-processing.stockInboundProcessingHandler
+    events:
+      - stream:
+          type: dynamodb
+          arn:
+            Ref: StockInboundEventsDynamoDBTable
+
 resources:
   - ${file(./migrations/tables/stock.yml)}
   - ${file(./migrations/tables/stock-inbound-events.yml)}
@@ -62,4 +74,5 @@ resources:
 plugins:
   - serverless-plugin-typescript
   - serverless-dynamodb-local
+  - serverless-plugin-offline-dynamodb-stream
   - serverless-offline
