@@ -5,7 +5,7 @@ const client = dynamodb.doc
 
 export const hello = async () => {
   const params: DynamoDB.GetItemInput = {
-    TableName: 'stock',
+    TableName: 'stockTable',
     Key: {
       id: {
         S: '123123',
