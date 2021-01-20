@@ -8,3 +8,11 @@ export interface Stock {
   expanses: number
   provider: string
 }
+
+export interface StockInbound {
+  id: string
+  stockId: string
+  eventAt: string
+  inboundQuantity: number
+  status: string
+}
