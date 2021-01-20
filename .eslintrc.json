@@ -13,5 +13,12 @@
   "rules": {
     "import/prefer-default-export": "off",
     "semi": "off"
+  },
+  "settings": {
+    "import/resolver": {
+      "node": {
+        "extensions": [".ts", ".js"]
+      }
+    }
   }
 }
