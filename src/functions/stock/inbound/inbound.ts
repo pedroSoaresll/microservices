@@ -9,7 +9,7 @@ import { transformObjectKeysToCamel } from '../../../helpers'
 
 // Types
 import { StockInboundPayload } from './types'
-import { DynamoDBTables } from '../../../types'
+import { DynamoDBTables, StockInboundStatus } from '../../../types'
 
 import { stockInboundValidator } from './validator'
 
@@ -32,6 +32,7 @@ export const stockInboundHandler = async (
 
     const { inboundQuantity, eventAt } = transformObjectKeysToCamel(data)
 
+    const stockInboundStatus: StockInboundStatus = 'PENDING'
     const TableName: DynamoDBTables = 'stockInboundEvents'
     const params: DynamoDB.PutItemInput = {
       TableName,
@@ -47,6 +48,9 @@ export const stockInboundHandler = async (
         },
         event_at: {
           S: eventAt ?? new Date().toISOString(),
+        },
+        status: {
+          S: stockInboundStatus,
         },
       },
     }

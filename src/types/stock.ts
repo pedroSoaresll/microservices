@@ -9,10 +9,12 @@ export interface Stock {
   provider: string
 }
 
+export type StockInboundStatus = 'PENDING' | 'ACCOUNTED'
+
 export interface StockInbound {
   id: string
   stockId: string
   eventAt: string
   inboundQuantity: number
-  status: string
+  status: StockInboundStatus
 }
