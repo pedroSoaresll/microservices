@@ -17,10 +17,10 @@ export const stockInboundHandler = async (
   event: APIGatewayEvent
 ): Promise<APIGatewayProxyStructuredResultV2> => {
   try {
-    const { body, queryStringParameters } = event
+    const { body, pathParameters } = event
 
     // @todo: do a validation to know if stockId really exists
-    const stockId = queryStringParameters?.stockId
+    const stockId = pathParameters?.stockId
 
     if (!body) {
       throw new Error('payload is empty')
@@ -50,6 +50,7 @@ export const stockInboundHandler = async (
         },
       },
     }
+
     const { $response: response } = await dynamoClient.putItem(params).promise()
 
     return {
