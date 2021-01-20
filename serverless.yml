@@ -42,7 +42,7 @@ package:
 
 functions:
   stockCreate:
-    handler: src/functions/stock/create.stockCreateHandler
+    handler: src/functions/stock/create/create.stockCreateHandler
     events:
       - httpApi:
           path: /stock
