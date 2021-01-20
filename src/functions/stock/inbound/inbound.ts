@@ -17,7 +17,10 @@ export const stockInboundHandler = async (
   event: APIGatewayEvent
 ): Promise<APIGatewayProxyStructuredResultV2> => {
   try {
-    const { body } = event
+    const { body, queryStringParameters } = event
+
+    // @todo: do a validation to know if stockId really exists
+    const stockId = queryStringParameters?.stockId
 
     if (!body) {
       throw new Error('payload is empty')
@@ -27,9 +30,7 @@ export const stockInboundHandler = async (
 
     await stockInboundValidator(data)
 
-    const { inboundQuantity, stockId, eventAt } = transformObjectKeysToCamel(
-      data
-    )
+    const { inboundQuantity, eventAt } = transformObjectKeysToCamel(data)
 
     const TableName: DynamoDBTables = 'stockInboundEvents'
     const params: DynamoDB.PutItemInput = {
