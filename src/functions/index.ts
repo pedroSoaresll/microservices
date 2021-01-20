@@ -1,1 +1,1 @@
-export * from './stock/create'
+export * from './stock'
