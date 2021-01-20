@@ -47,6 +47,12 @@ functions:
       - httpApi:
           path: /stock
           method: post
+  stockInbound:
+    handler: src/functions/stock/inbound/inbound.stockInboundHandler.ts
+    events:
+      - httpApi:
+        path: /stock/{stockId}/inbound
+        method: put
 
 resources:
   - ${file(./migrations/tables/stock.yml)}
