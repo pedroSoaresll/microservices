@@ -1,25 +1,21 @@
 import { DynamoDB } from 'aws-sdk'
 import { AWSStages } from '../types'
 
-let endpoint: string
+const options: DynamoDB.ClientConfiguration = {}
 
 const stage: AWSStages = (process.env.STAGE as AWSStages) ?? 'dev'
 
 if (stage === 'dev') {
-  endpoint = 'http://localhost:8000'
+  options.endpoint = 'http://localhost:8000'
 } else if (stage === 'stg') {
-  endpoint = 'dynamodb.us-east-1.amazonaws.com'
-} else {
-  endpoint = ''
+  options.endpoint = 'dynamodb.us-east-1.amazonaws.com'
 }
 
 let dynamodb: DynamoDB
 
 // @ts-ignore
 if (!dynamodb) {
-  dynamodb = new DynamoDB({
-    endpoint,
-  })
+  dynamodb = new DynamoDB(options)
 }
 
 export default dynamodb

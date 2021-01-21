@@ -39,6 +39,18 @@ provider:
   stage: dev
   region: us-east-1
   environment: ${file(./.env.yml):${opt:stage, self:provider.stage, 'dev'}}
+  iamRoleStatements:
+    - Effect: Allow
+      Action:
+        - dynamodb:Query
+        - dynamodb:GetItem
+        - dynamodb:PutItem
+        - dynamodb:UpdateItem
+        - dynamodb:DeleteItem
+      Resource:
+        - arn:aws:dynamodb:us-east-1:063061419719:table/stockTable
+        - arn:aws:dynamodb:us-east-1:063061419719:table/stockOutboundEvents
+        - arn:aws:dynamodb:us-east-1:063061419719:table/stockInboundEvents
 
 package:
   exclude:
@@ -61,10 +73,7 @@ functions:
   stockInboundProcessing:
     handler: src/functions/stock/inbount-processing/inbound-processing.stockInboundProcessingHandler
     events:
-      - stream:
-          type: dynamodb
-          arn:
-            Ref: StockInboundEventsDynamoDBTable
+      - stream: arn:aws:dynamodb:us-east-1:063061419719:table/stockInboundEvents/stream/2021-01-21T03:42:24.276
 
 resources:
   - ${file(./migrations/tables/stock.yml)}
