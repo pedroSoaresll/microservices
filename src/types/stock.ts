@@ -19,7 +19,7 @@ export interface Stock {
   provider: string
 }
 
-export type StockInboundStatus = 'PENDING' | 'ACCOUNTED'
+export type StockEventStatus = 'PENDING' | 'ACCOUNTED'
 
 export type StockInboundKeys =
   | 'id'
@@ -33,5 +33,20 @@ export interface StockInbound {
   stockId: string
   eventAt: string
   inboundQuantity: number
-  status: StockInboundStatus
+  status: StockEventStatus
+}
+
+export type StockOutboundKeys =
+  | 'id'
+  | 'stockId'
+  | 'eventAt'
+  | 'outboundQuantity'
+  | 'status'
+
+export interface StockOutbound {
+  id: string
+  stockId: string
+  eventAt: string
+  outboundQuantity: number
+  status: StockEventStatus
 }

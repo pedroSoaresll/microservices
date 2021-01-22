@@ -8,12 +8,12 @@ import { DynamoDB, dynamoClient } from '../../../libs'
 import { transformObjectKeysToCamel } from '../../../helpers'
 
 // Types
-import { StockInboundPayload } from './types'
+import { StockOutboundPayload } from './types'
 import { DynamoDBTables, StockEventStatus } from '../../../types'
 
-import { stockInboundValidator } from './validator'
+import { stockOutboundValidator } from './validator'
 
-export const stockInboundHandler = async (
+export const stockOutboundHandler = async (
   event: APIGatewayEvent
 ): Promise<APIGatewayProxyStructuredResultV2> => {
   try {
@@ -26,14 +26,14 @@ export const stockInboundHandler = async (
       throw new Error('payload is empty')
     }
 
-    const data = JSON.parse(body) as StockInboundPayload
+    const data = JSON.parse(body) as StockOutboundPayload
 
-    await stockInboundValidator(data)
+    await stockOutboundValidator(data)
 
-    const { inboundQuantity, eventAt } = transformObjectKeysToCamel(data)
+    const { outboundQuantity, eventAt } = transformObjectKeysToCamel(data)
 
     const stockEventStatus: StockEventStatus = 'PENDING'
-    const TableName: DynamoDBTables = 'stockInboundEvents'
+    const TableName: DynamoDBTables = 'stockOutboundEvents'
     const params: DynamoDB.PutItemInput = {
       TableName,
       Item: {
@@ -43,8 +43,8 @@ export const stockInboundHandler = async (
         stock_id: {
           S: stockId,
         },
-        inbound_quantity: {
-          N: String(inboundQuantity),
+        outbound_quantity: {
+          N: String(outboundQuantity),
         },
         event_at: {
           S: eventAt ?? new Date().toISOString(),

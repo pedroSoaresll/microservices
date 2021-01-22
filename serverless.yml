@@ -31,6 +31,9 @@ custom:
       - table: stockInboundEvents
         functions:
           - stockInboundProcessing
+      - table: stockOutboundEvents
+        functions:
+          - stockOutboundProcessing
 
 provider:
   name: aws
@@ -69,11 +72,22 @@ functions:
       - httpApi:
           path: /stock/{stockId}/inbound
           method: put
+  stockOutbound:
+    handler: src/functions/stock/outbound/outbound.stockOutboundHandler
+    events:
+      - httpApi:
+          path: /stock/{stockId}/outbound
+          method: put
 
   stockInboundProcessing:
     handler: src/functions/stock/inbount-processing/inbound-processing.stockInboundProcessingHandler
     events:
       - stream: arn:aws:dynamodb:us-east-1:063061419719:table/stockInboundEvents/stream/2021-01-21T03:42:24.276
+
+  stockOutboundProcessing:
+    handler: src/functions/stock/outbount-processing/outbound-processing.stockOutboundProcessingHandler
+    events:
+      - stream: arn:aws:dynamodb:us-east-1:063061419719:table/stockOutboundEvents/stream/2021-01-21T03:42:24.477
 
 resources:
   - ${file(./migrations/tables/stock.yml)}
