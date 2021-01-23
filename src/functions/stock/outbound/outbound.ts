@@ -62,6 +62,7 @@ export const stockOutboundHandler = async (
       body: JSON.stringify(response.data),
     }
   } catch (error) {
+    console.error(error)
     return {
       statusCode: 400,
       body: JSON.stringify({

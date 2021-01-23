@@ -24,7 +24,8 @@
         "tsx": "never"
       }
     ],
-    "import/no-mutable-exports": "off"
+    "import/no-mutable-exports": "off",
+    "no-console": "off"
   },
   "settings": {
     "import/resolver": {

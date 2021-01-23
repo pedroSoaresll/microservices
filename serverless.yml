@@ -20,7 +20,7 @@ custom:
     stages:
       - dev
     start:
-      inMemory: false
+      inMemory: true
       migrate: true
   dynamodbStream:
     host: localhost

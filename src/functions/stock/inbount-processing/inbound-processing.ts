@@ -40,11 +40,15 @@ export const stockInboundProcessingHandler: DynamoDBStreamHandler = async (
       DynamoDB.AttributeValue
     >
 
+    console.log(JSON.stringify(stockData, null, 2))
+
     const updatedStockQuantity =
       Number(stockData.quantity.N) + Number(inboundQuantity.N)
 
     await updateItems(
       queryUpdateStockQuantityBy(stockId.S, String(updatedStockQuantity))
     )
+
+    console.log('stock updated', updatedStockQuantity)
   })
 }
