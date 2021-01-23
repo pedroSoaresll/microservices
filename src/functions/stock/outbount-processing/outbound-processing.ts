@@ -1,8 +1,12 @@
 import { DynamoDBStreamHandler } from 'aws-lambda'
 import { DynamoDB } from '../../../libs'
-import { transformObjectKeysToCamel } from '../../../helpers'
+import {
+  transformObjectKeysToCamel,
+  getItems,
+  updateItems,
+} from '../../../helpers'
 import { StockKeys, StockOutboundKeys } from '../../../types'
-import { getStockBy, updateStockQuantityBy } from '../helpers'
+import { queryGetStockBy, queryUpdateStockQuantityBy } from '../../../queries'
 
 export const stockOutboundProcessingHandler: DynamoDBStreamHandler = async (
   event
@@ -22,7 +26,9 @@ export const stockOutboundProcessingHandler: DynamoDBStreamHandler = async (
       throw new Error('stock id is undefined')
     }
 
-    const { $response: stockResponse } = await getStockBy(stockId.S)
+    const { $response: stockResponse } = await getItems(
+      queryGetStockBy(stockId.S)
+    )
     const { data: stock } = stockResponse
 
     if (!stock || !stock.Item) {
@@ -37,6 +43,8 @@ export const stockOutboundProcessingHandler: DynamoDBStreamHandler = async (
     const updatedStockQuantity =
       Number(stockData.quantity.N) - Number(outboundQuantity.N)
 
-    await updateStockQuantityBy(stockId.S, String(updatedStockQuantity))
+    await updateItems(
+      queryUpdateStockQuantityBy(stockId.S, String(updatedStockQuantity))
+    )
   })
 }

@@ -1,41 +1,12 @@
 import { DynamoDBStreamHandler } from 'aws-lambda'
-import { DynamoDB, dynamoClient } from '../../../libs'
-import { transformObjectKeysToCamel } from '../../../helpers'
-import { StockInboundKeys, DynamoDBTables, StockKeys } from '../../../types'
-
-export async function getStockBy(id: string) {
-  const TableName: DynamoDBTables = 'stockTable'
-  const params: DynamoDB.GetItemInput = {
-    TableName,
-    Key: {
-      id: {
-        S: id,
-      },
-    },
-  }
-
-  return dynamoClient.getItem(params).promise()
-}
-
-export async function updateStockQuantityBy(id: string, newQuantity: string) {
-  const TableName: DynamoDBTables = 'stockTable'
-  const params: DynamoDB.UpdateItemInput = {
-    TableName,
-    Key: {
-      id: {
-        S: id,
-      },
-    },
-    UpdateExpression: 'set quantity = :q',
-    ExpressionAttributeValues: {
-      ':q': {
-        N: newQuantity,
-      },
-    },
-  }
-
-  return dynamoClient.updateItem(params).promise()
-}
+import { DynamoDB } from '../../../libs'
+import {
+  getItems,
+  transformObjectKeysToCamel,
+  updateItems,
+} from '../../../helpers'
+import { StockInboundKeys, StockKeys } from '../../../types'
+import { queryGetStockBy, queryUpdateStockQuantityBy } from '../../../queries'
 
 export const stockInboundProcessingHandler: DynamoDBStreamHandler = async (
   event
@@ -55,7 +26,9 @@ export const stockInboundProcessingHandler: DynamoDBStreamHandler = async (
       throw new Error('stock id is undefined')
     }
 
-    const { $response: stockResponse } = await getStockBy(stockId.S)
+    const { $response: stockResponse } = await getItems(
+      queryGetStockBy(stockId.S)
+    )
     const { data: stock } = stockResponse
 
     if (!stock || !stock.Item) {
@@ -70,6 +43,8 @@ export const stockInboundProcessingHandler: DynamoDBStreamHandler = async (
     const updatedStockQuantity =
       Number(stockData.quantity.N) + Number(inboundQuantity.N)
 
-    await updateStockQuantityBy(stockId.S, String(updatedStockQuantity))
+    await updateItems(
+      queryUpdateStockQuantityBy(stockId.S, String(updatedStockQuantity))
+    )
   })
 }
