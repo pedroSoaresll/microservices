@@ -3,7 +3,8 @@
   "version": "1.0.0",
   "scripts": {
     "start": "serverless offline start",
-    "deploy": "serverless deploy --stage prod"
+    "deploy": "serverless deploy --stage prod",
+    "install-dynamodb": "serverless dynamodb install"
   },
   "dependencies": {
     "change-case": "^4.1.2",

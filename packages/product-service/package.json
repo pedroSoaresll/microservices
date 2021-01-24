@@ -1,0 +1,23 @@
+{
+  "name": "product-service",
+  "version": "1.0.0",
+  "scripts": {
+    "start": "serverless offline start",
+    "deploy": "serverless deploy --stage prod",
+    "install-dynamodb": "serverless dynamodb install"
+  },
+  "dependencies": {
+    "change-case": "^4.1.2",
+    "uuid": "^8.3.2",
+    "yup": "^0.32.8"
+  },
+  "devDependencies": {
+    "serverless-dynamodb-local": "^0.2.39",
+    "serverless-offline": "^6.8.0",
+    "serverless-plugin-offline-dynamodb-stream": "^1.0.20"
+  },
+  "peerDependencies": {
+    "aws-lambda": "^1.0.6",
+    "aws-sdk": "^2.831.0"
+  }
+}

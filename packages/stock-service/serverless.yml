@@ -16,12 +16,16 @@ service: stock-service
 frameworkVersion: '2'
 
 custom:
+  serverless-offline:
+    httpPort: 4000
+    lambdaPort: 5000
   dynamodb:
     stages:
       - dev
     start:
       inMemory: true
       migrate: true
+      port: 8000
   dynamodbStream:
     host: localhost
     port: 8000
