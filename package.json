@@ -1,4 +1,9 @@
 {
+  "private": true,
+  "workspaces": [
+    "stock-service",
+    "product-service"
+  ],
   "scripts": {
     "start": "serverless offline start",
     "deploy": "serverless deploy --stage prod"
@@ -22,14 +27,5 @@
     "serverless-plugin-typescript": "^1.1.9",
     "source-map-support": "^0.5.19",
     "typescript": "^4.1.3"
-  },
-  "dependencies": {
-    "change-case": "^4.1.2",
-    "uuid": "^8.3.2",
-    "yup": "^0.32.8"
-  },
-  "peerDependencies": {
-    "aws-lambda": "^1.0.6",
-    "aws-sdk": "^2.829.0"
   }
 }
