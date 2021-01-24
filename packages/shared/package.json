@@ -1,0 +1,17 @@
+{
+  "name": "@microservices/shared",
+  "private": true,
+  "version": "0.0.0",
+  "main": "index.ts",
+  "scripts": {
+    "start": "",
+    "deploy": "",
+    "install-dynamodb": ""
+  },
+  "dependencies": {
+    "change-case": "^4.1.2"
+  },
+  "peerDependencies": {
+    "aws-sdk": "^2.831.0"
+  }
+}

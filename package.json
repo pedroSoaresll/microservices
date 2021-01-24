@@ -26,7 +26,8 @@
     "serverless-plugin-offline-dynamodb-stream": "^1.0.20",
     "serverless-plugin-typescript": "^1.1.9",
     "source-map-support": "^0.5.19",
-    "typescript": "^4.1.3"
+    "typescript": "^4.1.3",
+    "serverless-offline-sns": "^0.68.0"
   },
   "name": "stock-service"
 }

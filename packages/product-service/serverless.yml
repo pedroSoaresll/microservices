@@ -38,6 +38,9 @@ custom:
   #   - table: stockOutboundEvents
   #     functions:
   #       - stockOutboundProcessing
+  serverless-offline-sns:
+    localPort: 6000
+    host: localhost
 
 provider:
   name: aws
@@ -64,7 +67,7 @@ package:
     - aws-sdk
 
 functions:
-  stockCreate:
+  productCreate:
     handler: src/functions/create.productCreateHandler
     events:
       - httpApi:
@@ -80,4 +83,5 @@ plugins:
   - serverless-plugin-typescript
   - serverless-dynamodb-local
   - serverless-plugin-offline-dynamodb-stream
+  - serverless-offline-sns
   - serverless-offline

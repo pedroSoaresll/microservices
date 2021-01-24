@@ -70,6 +70,7 @@ functions:
       - httpApi:
           path: /stock
           method: post
+      - sns: product-created
   stockInbound:
     handler: src/functions/inbound/inbound.stockInboundHandler
     events:

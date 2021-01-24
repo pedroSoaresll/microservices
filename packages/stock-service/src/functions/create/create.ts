@@ -2,13 +2,14 @@ import { APIGatewayEvent, APIGatewayProxyStructuredResultV2 } from 'aws-lambda'
 import { v4 as uuid } from 'uuid'
 
 // Libs
-import { dynamoClient, DynamoDB } from '../../libs'
+import {
+  dynamoClient,
+  DynamoDB,
+  DynamoDBTables,
+  Stock,
+  transformObjectKeysToCamel,
+} from '@microservices/shared'
 
-// Types
-import { DynamoDBTables, Stock } from '../../types'
-
-// Validator
-import { transformObjectKeysToCamel } from '../../helpers'
 import { stockCreateValidator } from './validator'
 
 export const stockCreateHandler = async (

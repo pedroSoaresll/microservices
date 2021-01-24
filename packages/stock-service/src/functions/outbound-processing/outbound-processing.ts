@@ -1,11 +1,12 @@
 import { DynamoDBStreamHandler } from 'aws-lambda'
-import { DynamoDB } from '../../libs'
 import {
+  DynamoDB,
   transformObjectKeysToCamel,
   getItems,
   updateItems,
-} from '../../helpers'
-import { StockKeys, StockOutboundKeys } from '../../types'
+  StockKeys,
+  StockOutboundKeys,
+} from '@microservices/shared'
 import { queryGetStockBy, queryUpdateStockQuantityBy } from '../../queries'
 
 export const stockOutboundProcessingHandler: DynamoDBStreamHandler = async (

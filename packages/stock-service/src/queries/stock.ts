@@ -1,5 +1,5 @@
 import { DynamoDB } from 'aws-sdk'
-import { DynamoDBTables } from '../types'
+import { DynamoDBTables } from '@microservices/shared'
 
 export function queryGetStockBy(id: string) {
   const TableName: DynamoDBTables = 'stockTable'
