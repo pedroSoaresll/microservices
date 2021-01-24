@@ -1,14 +1,14 @@
 import { DynamoDBStreamHandler } from 'aws-lambda'
-import { DynamoDB } from '../../../libs'
+import { DynamoDB } from '../../libs'
 import {
-  getItems,
   transformObjectKeysToCamel,
+  getItems,
   updateItems,
-} from '../../../helpers'
-import { StockInboundKeys, StockKeys } from '../../../types'
-import { queryGetStockBy, queryUpdateStockQuantityBy } from '../../../queries'
+} from '../../helpers'
+import { StockKeys, StockOutboundKeys } from '../../types'
+import { queryGetStockBy, queryUpdateStockQuantityBy } from '../../queries'
 
-export const stockInboundProcessingHandler: DynamoDBStreamHandler = async (
+export const stockOutboundProcessingHandler: DynamoDBStreamHandler = async (
   event
 ) => {
   event.Records.forEach(async (value) => {
@@ -18,9 +18,9 @@ export const stockInboundProcessingHandler: DynamoDBStreamHandler = async (
 
     const inbound = transformObjectKeysToCamel(
       value.dynamodb?.NewImage
-    ) as Record<StockInboundKeys, DynamoDB.AttributeValue>
+    ) as Record<StockOutboundKeys, DynamoDB.AttributeValue>
 
-    const { stockId, inboundQuantity } = inbound
+    const { stockId, outboundQuantity } = inbound
 
     if (!stockId.S) {
       throw new Error('stock id is undefined')
@@ -43,7 +43,7 @@ export const stockInboundProcessingHandler: DynamoDBStreamHandler = async (
     console.log(JSON.stringify(stockData, null, 2))
 
     const updatedStockQuantity =
-      Number(stockData.quantity.N) + Number(inboundQuantity.N)
+      Number(stockData.quantity.N) - Number(outboundQuantity.N)
 
     await updateItems(
       queryUpdateStockQuantityBy(stockId.S, String(updatedStockQuantity))

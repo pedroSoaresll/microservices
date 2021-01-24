@@ -1,0 +1,79 @@
+# Welcome to Serverless!
+#
+# This file is the main config file for your service.
+# It's very minimal at this point and uses default values.
+# You can always add more config options for more control.
+# We've included some commented out config examples here.
+# Just uncomment any of them to get that config option.
+#
+# For full config options, check the docs:
+#    docs.serverless.com
+#
+# Happy Coding!
+
+service: product-service
+
+frameworkVersion: '2'
+
+custom:
+  dynamodb:
+    stages:
+      - dev
+    start:
+      inMemory: true
+      migrate: true
+  dynamodbStream:
+    host: localhost
+    port: 8001
+    pollForever: false
+    region: ${self:provider.region}
+    # streams:
+    #   - table: stockInboundEvents
+    #     functions:
+    #       - stockInboundProcessing
+    #   - table: stockOutboundEvents
+    #     functions:
+    #       - stockOutboundProcessing
+
+provider:
+  name: aws
+  runtime: nodejs12.x
+  lambdaHashingVersion: 20201221
+  stage: dev
+  region: us-east-1
+  environment: ${file(./.env.yml):${opt:stage, self:provider.stage, 'dev'}}
+  # iamRoleStatements:
+  #   - Effect: Allow
+  #     Action:
+  #       - dynamodb:Query
+  #       - dynamodb:GetItem
+  #       - dynamodb:PutItem
+  #       - dynamodb:UpdateItem
+  #       - dynamodb:DeleteItem
+  #     Resource:
+  #       - arn:aws:dynamodb:us-east-1:063061419719:table/stockTable
+  #       - arn:aws:dynamodb:us-east-1:063061419719:table/stockOutboundEvents
+  #       - arn:aws:dynamodb:us-east-1:063061419719:table/stockInboundEvents
+
+package:
+  exclude:
+    - aws-sdk
+
+functions:
+  stockCreate:
+    handler: src/functions/stock/create/create.stockCreateHandler
+    events:
+      - httpApi:
+          path: /stock
+          method: post
+
+# resources:
+#   - ${file(./migrations/tables/stock.yml)}
+#   - ${file(./migrations/tables/stock-inbound-events.yml)}
+#   - ${file(./migrations/tables/stock-outbound-events.yml)}
+
+plugins:
+  - serverless-plugin-typescript
+  - serverless-dynamodb-local
+  - serverless-plugin-offline-dynamodb-stream
+  - serverless-offline

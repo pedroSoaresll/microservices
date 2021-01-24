@@ -61,31 +61,31 @@ package:
 
 functions:
   stockCreate:
-    handler: src/functions/stock/create/create.stockCreateHandler
+    handler: src/functions/create/create.stockCreateHandler
     events:
       - httpApi:
           path: /stock
           method: post
   stockInbound:
-    handler: src/functions/stock/inbound/inbound.stockInboundHandler
+    handler: src/functions/inbound/inbound.stockInboundHandler
     events:
       - httpApi:
           path: /stock/{stockId}/inbound
           method: put
   stockOutbound:
-    handler: src/functions/stock/outbound/outbound.stockOutboundHandler
+    handler: src/functions/outbound/outbound.stockOutboundHandler
     events:
       - httpApi:
           path: /stock/{stockId}/outbound
           method: put
 
   stockInboundProcessing:
-    handler: src/functions/stock/inbount-processing/inbound-processing.stockInboundProcessingHandler
+    handler: src/functions/inbound-processing/inbound-processing.stockInboundProcessingHandler
     events:
       - stream: arn:aws:dynamodb:us-east-1:063061419719:table/stockInboundEvents/stream/2021-01-21T03:42:24.276
 
   stockOutboundProcessing:
-    handler: src/functions/stock/outbount-processing/outbound-processing.stockOutboundProcessingHandler
+    handler: src/functions/outbound-processing/outbound-processing.stockOutboundProcessingHandler
     events:
       - stream: arn:aws:dynamodb:us-east-1:063061419719:table/stockOutboundEvents/stream/2021-01-21T03:42:24.477
 
