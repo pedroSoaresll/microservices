@@ -2,11 +2,5 @@
   "extends": "../../tsconfig.json",
   "compilerOptions": {
     "rootDir": "./"
-  },
-  "references": [
-    {
-      "path": "../shared",
-      "prepend": true
-    }
-  ]
+  }
 }
