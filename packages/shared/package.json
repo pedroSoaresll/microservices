@@ -2,7 +2,7 @@
   "name": "@microservices/shared",
   "private": true,
   "version": "0.0.0",
-  "main": "index.ts",
+  "main": "index.js",
   "scripts": {
     "start": "tsc -w index.ts",
     "deploy": "",

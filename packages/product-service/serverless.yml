@@ -40,7 +40,7 @@ custom:
   #       - stockOutboundProcessing
   serverless-offline-sns:
     localPort: 6000
-    host: localhost
+    port: 6000
 
 provider:
   name: aws
@@ -73,6 +73,10 @@ functions:
       - httpApi:
           path: /product
           method: post
+  teste:
+    handler: src/functions/teste.teste
+    events:
+      - sns: arn:aws:sns:us-east-1:123456789012:product-created
 
 # resources:
 #   - ${file(./migrations/tables/stock.yml)}
