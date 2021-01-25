@@ -1,0 +1,5 @@
+Resources:
+  ProductCreated:
+    Type: AWS::SNS::Topic
+    Properties:
+      TopicName: product-created

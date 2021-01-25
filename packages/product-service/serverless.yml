@@ -39,6 +39,7 @@ custom:
   #     functions:
   #       - stockOutboundProcessing
   serverless-offline-sns:
+    accountId: 123456789012
     localPort: 6000
     port: 6000
 
@@ -73,13 +74,13 @@ functions:
       - httpApi:
           path: /product
           method: post
-  teste:
+  testeSns:
     handler: src/functions/teste.teste
     events:
-      - sns: arn:aws:sns:us-east-1:123456789012:product-created
+      - sns: arn:aws:sns:${AWS::Region}:${self:custom.serverless-offline-sns.accountId, AWS::AccountId}:product-created
 
-# resources:
-#   - ${file(./migrations/tables/stock.yml)}
+resources:
+  - ${file(./resources/sns/product-created-topic.yml)}
 #   - ${file(./migrations/tables/stock-inbound-events.yml)}
 #   - ${file(./migrations/tables/stock-outbound-events.yml)}
 

@@ -5,7 +5,8 @@
   ],
   "scripts": {
     "start": "lerna run --parallel start",
-    "deploy": "lerna run --parallel deploy"
+    "deploy": "lerna run --parallel deploy",
+    "setup-dynamodb": "lerna run --parallel install-dynamodb"
   },
   "devDependencies": {
     "@types/aws-lambda": "^8.10.70",

@@ -38,6 +38,10 @@ custom:
       - table: stockOutboundEvents
         functions:
           - stockOutboundProcessing
+  serverless-offline-sns:
+    accountId: 123456789012
+    host: 0.0.0.0
+    sns-endpoint: http://localhost:6000
 
 provider:
   name: aws
@@ -93,14 +97,19 @@ functions:
     handler: src/functions/outbound-processing/outbound-processing.stockOutboundProcessingHandler
     events:
       - stream: arn:aws:dynamodb:us-east-1:063061419719:table/stockOutboundEvents/stream/2021-01-21T03:42:24.477
+  testeSns:
+    handler: src/functions/teste.teste
+    events:
+      - sns: arn:aws:sns:${AWS::Region}:${self:custom.serverless-offline-sns.accountId, AWS::AccountId}:product-created
 
 resources:
-  - ${file(./migrations/tables/stock.yml)}
-  - ${file(./migrations/tables/stock-inbound-events.yml)}
-  - ${file(./migrations/tables/stock-outbound-events.yml)}
+  - ${file(./resources/tables/stock.yml)}
+  - ${file(./resources/tables/stock-inbound-events.yml)}
+  - ${file(./resources/tables/stock-outbound-events.yml)}
 
 plugins:
   - serverless-plugin-typescript
   - serverless-dynamodb-local
   - serverless-plugin-offline-dynamodb-stream
+  - serverless-offline-sns
   - serverless-offline
