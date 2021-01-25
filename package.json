@@ -5,7 +5,7 @@
   ],
   "scripts": {
     "start": "lerna run --parallel start",
-    "deploy": "serverless deploy --stage prod"
+    "deploy": "lerna run --parallel deploy"
   },
   "devDependencies": {
     "@types/aws-lambda": "^8.10.70",
