@@ -100,7 +100,7 @@ functions:
   testeSns:
     handler: src/functions/teste.teste
     events:
-      - sns: arn:aws:sns:${AWS::Region}:${self:custom.serverless-offline-sns.accountId, AWS::AccountId}:product-created
+      - sns: arn:aws:sns:${AWS::Region}:${file(./.env.yml):${opt:stage, self:provider.stage}:${AWS_ACCOUNT_ID, AWS::AccountId}:product-created
 
 resources:
   - ${file(./resources/tables/stock.yml)}
