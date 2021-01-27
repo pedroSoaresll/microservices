@@ -49,7 +49,7 @@ provider:
   lambdaHashingVersion: 20201221
   stage: dev
   region: us-east-1
-  environment: ${file(./.env.yml):${opt:stage, self:provider.stage, 'dev'}}
+  environment: ${file(.env.yml):${opt:stage, self:provider.stage}}
   # iamRoleStatements:
   #   - Effect: Allow
   #     Action:
@@ -74,13 +74,21 @@ functions:
       - httpApi:
           path: /product
           method: post
-  testeSns:
+  testeSns2:
     handler: src/functions/teste.teste
     events:
-      - sns: arn:aws:sns:${self:provider.region}:${file(./.env.yml):${opt:stage, self:provider.stage}:${AWS_ACCOUNT_ID, AWS::AccountId}:product-created
+      - sns:
+          arn:
+            Fn::Join:
+              - ':'
+              - - 'arn:aws:sns'
+                - ${opt:region, self:provider.region}
+                - ${file(.env.yml):${opt:stage, self:provider.stage}.AWS_ACCOUNT_ID}
+                - product-created
+          topicName: product-created
 
-resources:
-  - ${file(./resources/sns/product-created-topic.yml)}
+#  resources:
+# - ${file(./resources/sns/product-created-topic.yml)}
 #   - ${file(./migrations/tables/stock-inbound-events.yml)}
 #   - ${file(./migrations/tables/stock-outbound-events.yml)}
 
