@@ -7,13 +7,14 @@
     "install-dynamodb": "serverless dynamodb install"
   },
   "dependencies": {
-    "@microservices/shared": "0.0.0",
+    "@microservices/shared": "*",
     "change-case": "^4.1.2",
     "uuid": "^8.3.2",
     "yup": "^0.32.8"
   },
   "peerDependencies": {
     "aws-lambda": "^1.0.6",
-    "aws-sdk": "^2.831.0"
+    "aws-sdk": "^2.831.0",
+    "@microservices/shared": "0.0.0"
   }
 }
